@@ -21,7 +21,11 @@ function reset() {
 function setEvents(data) {
   events = data;
   var filtered = events.filter(event => (event.datetime >= startDate && event.datetime <= endDate));
-  showEvents(filtered);
+  if (filtered.length > 0) {
+    showEvents(filtered);
+  } else {
+    document.getElementById("errors").innerHTML = 'Brak koncertów w tym okresie :(';
+  }
 }
 
 function getNewArtistUrl(name) {
@@ -43,7 +47,6 @@ function getEventsData(url) {
   fetch(url)
     .then((resp) => resp.json())
     .then(function (data) {
-      console.log(data);
       setEvents(data);
     })
     .catch(error => {
@@ -109,9 +112,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     getFormData()
   });
 });
-
-
-
 
 
 
